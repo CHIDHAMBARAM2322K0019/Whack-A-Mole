@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .b {
+            height: 100px;
+            width: 100px;
+            border: 2px solid white;
+            margin: 30px;  
+            border-radius: 100%;  
+            cursor: pointer;        
+            background-color: white;
+        }
+        .b:hover {
+            transform: scale(1.12) rotate(5deg);
+        }
+
+        .whole {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            justify-content:center;
+        }
+        .b::selection{
+            color: brown;
+        }
+        .overall{
+            background: linear-gradient(to right, #2250e6, #f17fb2);
+            height: 100vh;
+        }
+        #scr , #err{ 
+            width: 100%;
+            text-align: center;
+            margin-right:50px ;
+            font-size: 1.5em;
+            line-height: 1.4;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #stopBtn {
+            padding: 10px 25px;
+            font-size: 1.2em;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="overall">
+        <div id="scr">Score:0</div>
+        <div id="err">Error:0</div>
+        <div class="btn-container">
+            <button id="stopBtn">Stop Game</button>
+        </div>
+        <div class="whole">
+            <div class="b"></div>
+            <div class="b"></div>
+            <div class="b"></div>
+            <div class="b"></div>
+            <div class="b"></div>
+            <div class="b"></div>
+            <div class="b"></div>
+            <div class="b"></div>
+            <div class="b"></div>
+        </div>
+    </div>
+    <script>
+        let score = 0;
+        let penalty = 0;
+        
+        
+        let allbox = document.querySelectorAll(".b")
+        console.log(allbox.length)
+        function replaceImage(){
+            allbox.forEach(box => { box.innerHTML = ""; });
+            let random = Math.floor(Math.random() * allbox.length)
+            allbox[random].innerHTML = "<img src='./assests/whack a mole.png' alt='pic' height='100px' width='100px'/>"
+        }
+
+        allbox.forEach(box => {
+            box.addEventListener("click", function (e) {
+                if (e.target.tagName === "IMG") {
+                    score++;
+                    document.getElementById("scr").innerText = "Score:" + score;
+                    replaceImage()
+                }
+                else {
+                    penalty++;
+                    document.getElementById("err").innerText = "Error:" + penalty;
+                }
+            })
+        })
+        let time = setInterval(() => {
+            replaceImage()
+        }, 2000)
+
+        document.getElementById("stopBtn").addEventListener("click", function() {
+            clearInterval(time); // Timer-ah stop panrom
+            gameActive = false; 
+            allbox.forEach(box => {
+                box.innerHTML = "";
+            });
+        })
+
+        
+    </script>
+</body>
+</html>
